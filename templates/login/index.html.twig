@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LoginController!{% endblock %}
+
+{% block body %}
+    <input type="email" placeholder="Email" class="email">
+    <input type="password" placeholder="Mot de passe" class="pass">
+
+    <button class="login">Se connecter</button>
+
+    <script>
+        let $api = `${window.location.protocol}/api/`;
+        let datas = {
+            email: "",
+            password: "",
+        }
+
+
+        document.querySelector('.email').addEventListener('keyup', () => {
+            datas.email = document.querySelector('.email').value
+        })
+        document.querySelector('.pass').addEventListener('keyup', () => {
+            datas.password = document.querySelector('.pass').value
+        })
+        document.querySelector('.login').addEventListener('click', () => {checkToken()})
+
+        async function checkToken() {
+            let tempToken;
+            await axios.post(`${$api}login`, datas)
+                .then(res => {
+                    tempToken = res.data.token
+                    login(tempToken)
+                })
+        }
+        async function login(tok) {
+            axios.defaults.headers.common = {'Authorization': `Bearer ${tok}`}
+            await axios.get(`${$api}users.json`)
+                .then(res => {
+                    if (res.status === 200) {
+                        console.log('loged in')
+                    }
+                })
+        }
+    </script>
+{% endblock %}
