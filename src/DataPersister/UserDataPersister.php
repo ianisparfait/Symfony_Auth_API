@@ -17,7 +17,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
   private $_entityManager;
   private $_passwordEncoder;
 
-  public function __construct(EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordEncoder) {
+  public function __construct(EntityManagerInterface $entityManager, UserPasswordEncoderInterface $passwordEncoder) {
     $this->_entityManager = $entityManager;
     $this->_passwordEncoder = $passwordEncoder;
   }
@@ -37,7 +37,7 @@ class UserDataPersister implements ContextAwareDataPersisterInterface
   {
     if ($data->getPlainPassword()) {
       $data->setPassword(
-        $this->_passwordEncoder->hashPassword(
+        $this->_passwordEncoder->encodePassword(
           $data,
           $data->getPlainPassword()
         )
