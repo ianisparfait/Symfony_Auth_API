@@ -28,6 +28,7 @@
             let tempToken;
             await axios.post(`${$api}login`, datas)
                 .then(res => {
+                    console.log(res.data)
                     tempToken = res.data.token
                     login(tempToken)
                 })
