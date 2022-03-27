@@ -1,0 +1,66 @@
+.get_films {
+  & .contain_films {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(calc(100% / 5), auto));
+    max-width: 90vw;
+    margin: auto;
+    & .item {
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      max-height: 45vh;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.5s cubic-bezier(0.42, 0, 0, 1);
+      & img {
+        height: 80%;
+        width: fit-content;
+      }
+      & .title {
+        position: absolute;
+        top: 50%;
+        color: white;
+        filter: drop-shadow(2px 4px 6px black);
+        font-size: 2em;
+      }
+      & .delete_item_film {
+        position: absolute;
+        right: 15%;
+        bottom: 10%;
+        background: $whiteColor;
+        padding: 20px 0px 0px 15px;
+        border-radius: 7px 0px 0px 0px;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  border-bottom: solid thin;
+  border-color: rgb(40 57 68 / 7%);
+}
+
+.put_films {
+  border-bottom: solid thin;
+  border-color: rgb(40 57 68 / 7%);
+  min-height: 100px;
+  & .item {
+    margin: 0vw 6px;
+  }
+}
+
+.post_films {
+  & .contain_form {
+    max-width: 40vw;
+    margin: auto;
+    & .name_desc, & .infos, & .url_poster{
+      display: flex;
+      justify-content: space-between;
+      & .v-input {
+        max-width: 90%!important;
+      }
+    }
+  }
+}

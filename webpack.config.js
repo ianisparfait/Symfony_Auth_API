@@ -1,4 +1,8 @@
 const Encore = require('@symfony/webpack-encore');
+require('file-loader')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 
 // Manually configure the runtime environment if not already configured yet by the "encore" command.
 // It's useful when you use tools that rely on webpack.config.js file.
@@ -20,10 +24,7 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/app.js')
-
-    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
-    .enableStimulusBridge('./assets/controllers.json')
+    .addEntry('app', './assets/javascript/app.js')
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -56,6 +57,18 @@ Encore
     })
 
     // enables Sass/SCSS support
+    .enableSassLoader(options => {
+        options.implementation = require('sass')
+    })
+
+    // enables VueJS support
+    .enableVueLoader(() => {}, {
+        useJsx: true,
+        runtimeCompilerBuild: false
+    })
+    .addPlugin(new VuetifyLoaderPlugin())
+
+    // enables Sass/SCSS support
     //.enableSassLoader()
 
     // uncomment if you use TypeScript
@@ -63,6 +76,12 @@ Encore
 
     // uncomment if you use React
     //.enableReactPreset()
+
+    // enables Copy files (img, fonts ...) into build
+    .copyFiles({
+        from: './assets/resources',
+        to: '[path][name].[hash:8].[ext]'
+    })
 
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
