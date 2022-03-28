@@ -9,8 +9,6 @@
 5. `php bin/console doctrine:migrations:migrate`
 6. Run the symfony server with the command: `symfony server:start`  
   ***/!\ If you does'nt use symfony CLI, Open project with laragon, mamp, xamp, wamp...***
-
-We need SSH private/public keys for Auth:  
 7. Create a **jwt** folder into config folder  
 8. In terminal run: `openssl genrsa -out config/jwt/private.pem -aes256 4096` and follow instruction (SAVE PASSPHRASE)  
 9. Still in your terminal, run: `openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem` and follow instructions with same passphrase than private key.  
