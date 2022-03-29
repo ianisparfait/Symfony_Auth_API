@@ -21,7 +21,7 @@
 11. Finally, run `yarn run watch` at the root and go to `127.0.0.1:{port}/` || `http://localhost:{port}/`  
 
 ## Install Database
-1. Open PhpMyAdmin (in this cas)
+1. Open PhpMyAdmin (in this case)
 2. Go to your database
 3. Click `insert`
 4. Click `Select a file` and find it in the Database folder of the project
