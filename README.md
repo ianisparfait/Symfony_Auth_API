@@ -25,6 +25,11 @@
   ```
     email: john@doe.com
     password: 0000
+    
+    OR
+    
+    email: admin@auth.com
+    password: 0000
   ```  
 2. Normal user, cannot access to dashboard and see the control access:  
   ```  
