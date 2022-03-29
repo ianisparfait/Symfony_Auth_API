@@ -1,5 +1,8 @@
 <template>
   <v-app id="inspire">
+    <v-alert dense type="info">
+      Vous ne pouvez pas vous modifier vous-même pour cause de disfonctionnement durant la session
+    </v-alert>
     <v-data-table
       :headers="headers"
       :items="users"
@@ -156,10 +159,10 @@
         </v-toolbar>
       </template>
       <template v-slot:[`item.actions`]="{ item }">
-        <v-icon small class="mr-2" @click="editItem(item)">
+        <v-icon small class="mr-2" @click="editItem(item)" v-if="checkMe(item)">
           mdi-pencil
         </v-icon>
-        <v-icon small @click="deleteItem(item)">
+        <v-icon small @click="deleteItem(item)" v-if="checkMe(item)">
           mdi-delete
         </v-icon>
       </template>
@@ -224,6 +227,13 @@ export default {
     },
   },
   methods: {
+    checkMe(item) {
+      if (item.email == this.$route.query.user) {
+        return false;
+      } else {
+        return true;
+      }
+    },
     getToken() {
       if (this.$route.query.token !== "" && this.$route.query.token !== undefined && this.$route.query.token) {
         this.token = this.$route.query.token;
