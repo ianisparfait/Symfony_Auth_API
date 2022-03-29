@@ -48,18 +48,34 @@ export default {
       this.textSnack = "Vous avez été redirigé en raison d'un manque d'information sécurisé."
       this.snackPost = true;
       this.loged = false;
+      localStorage.setItem('blockAuth', true)
+    } else {
+      localStorage.setItem('blockAuth', false)
     }
   },
   methods: {
     async checkLogin() {
-      await axios.post(`${this.$api}login`, this.datas)
-        .then(res => {
-          this.$authToken = res.data.token;
-          this.$refreshToken = res.data.refresh_token;
-          if (this.$authToken != "") {
-            this.login()
-          }
-        })
+      if (JSON.parse(localStorage.getItem('blockAuth')) === false) {
+        await axios.post(`${this.$api}login`, this.datas)
+          .then(res => {
+            if (res.status === 200) {
+              this.$authToken = res.data.token;
+              this.$refreshToken = res.data.refresh_token;
+              if (this.$authToken != "") {
+                this.login();
+              }
+            } else {
+              this.error();
+            }
+          })
+          .catch(() => {
+            this.error();
+          })
+      } else if (JSON.parse(localStorage.getItem('blockAuth')) === true) {
+        this.textSnack = "Erreur, contactez le support."
+        this.snackPost = true;
+        this.loged = false;
+      }
     },
     async login() {
       axios.defaults.headers.common = {'Authorization': `Bearer ${this.$authToken}`}
@@ -75,7 +91,40 @@ export default {
             }
           }
         })
-    }
+    },
+    async error() {
+      await axios.get(`${this.$api}force_attacks.json?email=${this.datas.email}`)
+        .then(res => {
+          res.data[0].blocked == true ? localStorage.setItem('blockAuth', true) : localStorage.setItem('blockAuth', false);
+
+          if (res.data[0].blocked != true) {
+            if (res.data[0].count < 3) {
+              this.patchForce(res.data[0], "nothing");
+            } else if (res.data[0].count >= 3 && res.data[0].count <= 5) {
+              this.patchForce(res.data[0], "warning")
+            } else if (res.data[0].count > 5) {
+              localStorage.setItem('blockAuth', true)
+              this.patchForce(res.data[0], "block")
+            }
+          }
+        })
+        .catch(() => {
+          this.setForce();
+        })
+      this.textSnack = "Erreur, vérifiez correctement vos informations."
+      this.snackPost = true;
+      this.loged = false;
+    },
+    async setForce() {
+      await axios.post(`${this.$api}force_attacks`, {email: this.datas.email, count: 1, blocked: null})
+    },
+    async patchForce(forced, statusForce) {
+      if (statusForce == "nothing" || statusForce == "warning") {
+        await axios.put(`${this.$api}force_attacks/${forced.id}`, {email: forced.email, count: forced.count+= 1, blocked: null})
+      } else if (statusForce == "block") {
+        await axios.put(`${this.$api}force_attacks/${forced.id}`, {email: forced.email, count: forced.count, blocked: true})
+      }
+    },
   }
 }
 </script>

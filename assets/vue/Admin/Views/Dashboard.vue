@@ -305,7 +305,6 @@ export default {
         this.updateItemSync(this.users[this.editedIndex].id)
       } else {
         this.users.push(this.editedItem)
-        console.log('create')
       }
       this.close()
     },
