@@ -3,6 +3,8 @@
     <v-alert dense type="info">
       Vous ne pouvez pas vous modifier vous-même pour cause de disfonctionnement durant la session
     </v-alert>
+    <v-btn @click="logout" color="primary">Se deconnecter</v-btn>
+    <v-divider></v-divider>
     <v-data-table
       :headers="headers"
       :items="users"
@@ -270,6 +272,9 @@ export default {
             this.fetchItems();
           }
         })
+    },
+    logout() {
+      this.$router.replace('/')
     },
 
 
