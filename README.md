@@ -3,11 +3,12 @@
 ## Install Project
 
 1. `composer install` || `composer update`
-2. Open and run local server for database (laragon, wamp, xamp, mamp ...)
-3. `php bin/console doctrine:database:create`
-4. `php bin/console make:migration`
-5. `php bin/console doctrine:migrations:migrate`
-6. Run the symfony server with the command: `symfony server:start`  
+2. `yarn install`
+3. Open and run local server for database (laragon, wamp, xamp, mamp ...)
+4. `php bin/console doctrine:database:create`
+5. `php bin/console make:migration`
+6. `php bin/console doctrine:migrations:migrate`
+7. Run the symfony server with the command: `symfony server:start`  
   ***/!\ If you does'nt use symfony CLI, Open project with laragon, mamp, xamp, wamp...***
 7. Create a **jwt** folder into config folder  
 8. In terminal run: `openssl genrsa -out config/jwt/private.pem -aes256 4096` and follow instructions (SAVE PASSPHRASE)  
