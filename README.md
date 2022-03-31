@@ -24,8 +24,9 @@
 ## Install Database
 1. Open PhpMyAdmin (in this case)
 2. Go to your database
-3. Click `insert`
-4. Click `Select a file` and find it in the Database folder of the project
+3. Delete all entries
+4. Click `insert` in navbar
+5. Click `Select a file` and find it in the Database folder of the project
 
 ## Given users  
 1. Admin user, can access the user dashboard and make changes/create ...:  
